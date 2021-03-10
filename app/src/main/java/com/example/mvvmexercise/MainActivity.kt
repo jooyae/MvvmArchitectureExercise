@@ -2,6 +2,7 @@ package com.example.mvvmexercise
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -14,8 +15,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.activity = this
+        binding.activity = this@MainActivity
         setRcv()
+        setObserv()
     }
 
     fun btnClick(view : View) {
@@ -27,9 +29,21 @@ class MainActivity : AppCompatActivity() {
         binding.mainRcv.layoutManager = LinearLayoutManager(this)
         binding.mainRcv.adapter = profileAdapter
         profileAdapter.data = listOf(
-                ProfileData(name = "PARK", age = 4),
-                ProfileData(name = "JuYae", age = 24)
+                ProfileData("@drawable/ic_home_img_step_five",name = "PARK", age = 4),
+                ProfileData("@drawable/ic_home_img_step_three",name = "JuYae", age = 24)
         )
         profileAdapter.notifyDataSetChanged()
+    }
+
+    fun setObserv() {
+        var item : ObservableData = ObservableData()
+        item.site = "Apple"
+        binding.site = item
+        Handler().postDelayed(Runnable {
+            run{
+                item.site = "Google"
+            }
+        },3000)
+
     }
 }
